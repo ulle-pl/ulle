@@ -60,55 +60,24 @@ Den består av 20 lag som tävlar varje säsong om titeln.
 De 4 första lagen när tabellen är slut i maj 2026 får spela UEFA Champions League.</p>
     <img src="https://upload.wikimedia.org/wikipedia/en/f/f2/Premier_League_Logo.svg" alt="Premier League-logga">
   </section>
+
 <!DOCTYPE html>
 <html lang="sv">
 <head>
   <meta charset="UTF-8">
-  <title>Premier League-tabell 2025/2026</title>
+  <title>Premier League-tabell</title>
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      background-color: #f0f0f0;
-      padding: 20px;
-    }
-    h1 {
-      color: #333;
-    }
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      background-color: #fff;
-      margin-top: 20px;
-    }
-    th, td {
-      padding: 10px;
-      text-align: left;
-      border-bottom: 1px solid #ccc;
-    }
-    th {
-      background-color: #004080;
-      color: white;
-    }
-    tr:hover {
-      background-color: #f9f9f9;
-    }
-    .link-box {
-      margin-top: 30px;
-      padding: 15px;
-      background-color: #e0e0ff;
-      border-left: 5px solid #004080;
-    }
-    .link-box a {
-      color: #004080;
-      text-decoration: none;
-      font-weight: bold;
-    }
+    body { font-family: Arial, sans-serif; background-color: #f0f0f0; padding: 20px; }
+    h1 { color: #333; }
+    table { width: 100%; border-collapse: collapse; background-color: #fff; margin-top: 20px; }
+    th, td { padding: 10px; text-align: left; border-bottom: 1px solid #ccc; }
+    th { background-color: #004080; color: white; }
+    tr:hover { background-color: #f9f9f9; }
   </style>
 </head>
 <body>
   <h1>Premier League-tabell 2025/2026</h1>
-
-  <table>
+  <table id="leagueTable">
     <thead>
       <tr>
         <th>#</th>
@@ -121,39 +90,46 @@ De 4 första lagen när tabellen är slut i maj 2026 får spela UEFA Champions L
         <th>Poäng</th>
       </tr>
     </thead>
-    <tbody>
-      <tr>
-        <td>1</td>
-        <td>Manchester City</td>
-        <td>5</td>
-        <td>4</td>
-        <td>1</td>
-        <td>0</td>
-        <td>+10</td>
-        <td>13</td>
-      </tr>
-      <tr>
-        <td>2</td>
-        <td>Liverpool</td>
-        <td>5</td>
-        <td>4</td>
-        <td>0</td>
-        <td>1</td>
-        <td>+8</td>
-        <td>12</td>
-      </tr>
-      <!-- Fyll på med fler lag -->
-    </tbody>
+    <tbody></tbody>
   </table>
 
-  <div class="link-box">
-    🔗 Besök den fullständiga tabellen på 
-    <a href="https://ulle-pl.github.io/ulle/" target="_blank">Tim's Premier League-sida</a>
-  </div>
+  <script>
+    const apiKey = 'YOUR_API_KEY'; //aee0f4fce00e421bbff7cc892c14c63b
+    const season = 2025;
+    const leagueId = 39; // Premier League ID i API-Football
+
+    fetch(`https://v3.football.api-sports.io/standings?season=${season}&league=${leagueId}`, {
+      method: 'GET',
+      headers: {
+        'x-apisports-key': apiKey
+      }
+    })
+    .then(response => response.json())
+    .then(data => {
+      const standings = data.response[0].league.standings[0];
+      const tbody = document.querySelector('#leagueTable tbody');
+      standings.forEach(team => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+          <td>${team.rank}</td>
+          <td>${team.team.name}</td>
+          <td>${team.all.played}</td>
+          <td>${team.all.win}</td>
+          <td>${team.all.draw}</td>
+          <td>${team.all.lose}</td>
+          <td>${team.goalsDiff}</td>
+          <td>${team.points}</td>
+        `;
+        tbody.appendChild(row);
+      });
+    })
+    .catch(error => console.error('Fel vid hämtning av data:', error));
+  </script>
 </body>
 </html>
 
-  <section id="lag">
+  
+
     <h2>De lag som spelar i ligan säsongen 2025/2026 är:</h2>
     <ul>
 	<li>Arsenal</li>
@@ -210,5 +186,6 @@ De 4 första lagen när tabellen är slut i maj 2026 får spela UEFA Champions L
 
 </body>
 </html>
+
 
 
